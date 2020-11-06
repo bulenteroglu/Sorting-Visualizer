@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 
+const ANIMATION_SPEED_MS = 1000;
+
 function Array({ array }) {
   return (
-    <div className='w-full flex justify-between mt-5  h-full space-x-2'>
+    <div className={clsx('w-full flex  mt-5 h-full space-x-1')}>
       {array.map((arr, i) => (
         <div
           style={{ height: `${arr}%` }}
@@ -45,7 +47,7 @@ export default function Page() {
       isSorted = true;
       for (let i = 0; i < array.length - 1 - counter; i++) {
         if (array[i] > array[i + 1]) {
-          const temp = array[i + 1];
+          let temp = array[i + 1];
           array[i + 1] = array[i];
           array[i] = temp;
           isSorted = false;
