@@ -9,7 +9,7 @@ function Array({ array }) {
           style={{ height: `${arr}%` }}
           key={i}
           className={clsx(
-            'bg-red-200 flex justify-center',
+            'bg-red-200 text-xs flex justify-center w-12',
             array.length > 45 && 'w-2'
           )}
         >
@@ -22,9 +22,8 @@ function Array({ array }) {
 
 export default function Page() {
   const [array, setArray] = useState([1, 2, 8, 4, 3, 2, 7, 5, 3, 21]);
-  const [length, setLength] = useState(50);
 
-  function randomArray() {
+  function randomArray(length) {
     const ARRAY_LENGTH = length;
     const tempArr = [];
     for (let i = 0; i < ARRAY_LENGTH; i++) {
@@ -35,26 +34,39 @@ export default function Page() {
   }
 
   function handleSlider(value) {
-    setLength(value);
+    randomArray(value);
+  }
+
+  function bubbleSort(array) {
+    let isSorted = false;
+    let counter = 0;
+
+    while (!isSorted) {
+      isSorted = true;
+      for (let i = 0; i < array.length - 1 - counter; i++) {
+        if (array[i] > array[i + 1]) {
+          const temp = array[i + 1];
+          array[i + 1] = array[i];
+          array[i] = temp;
+          isSorted = false;
+        }
+      }
+      counter++;
+    }
+    setArray([...array]);
   }
 
   return (
     <div>
       <div className='mt-5 flex items-center justify-between  rounded'>
         <div className='flex items-center space-x-5'>
-          <div
-            onClick={randomArray}
-            className='bg-orange-500 rounded-lg px-6 py-2 cursor-pointer italic'
-          >
-            Randomise Array
-          </div>
           <div>
             <label className='flex flex-col items-center justify-center'>
               Length of Array
               <input
                 onChange={(e) => handleSlider(e.target.value)}
                 type='range'
-                min='0'
+                min='2'
                 max='100'
                 defaultValue='50'
               />
@@ -63,7 +75,10 @@ export default function Page() {
         </div>
         <div>
           <ul className='flex space-x-12'>
-            <li className='bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer'>
+            <li
+              onClick={() => bubbleSort(array)}
+              className='bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer'
+            >
               Bubble Sort
             </li>
           </ul>
