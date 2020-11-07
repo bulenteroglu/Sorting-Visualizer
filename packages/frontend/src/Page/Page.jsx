@@ -58,6 +58,19 @@ export default function Page() {
     setArray([...array]);
   }
 
+  function insertionSort(array) {
+    for (let i = 1; i < array.length; i++) {
+      let j = i;
+      while (j > 0 && array[j] < array[j - 1]) {
+        const temp = array[j - 1];
+        array[j - 1] = array[j];
+        array[j] = temp;
+        j -= 1;
+      }
+    }
+    setArray([...array]);
+  }
+
   return (
     <div>
       <div className='mt-5 flex items-center justify-between  rounded'>
@@ -82,6 +95,12 @@ export default function Page() {
               className='bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer'
             >
               Bubble Sort
+            </li>
+            <li
+              onClick={() => insertionSort(array)}
+              className='bg-orange-500 rounded-lg px-6 py-2 cursor-pointer'
+            >
+              Insertion Sort
             </li>
           </ul>
         </div>
