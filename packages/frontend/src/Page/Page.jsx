@@ -78,15 +78,39 @@ export default function Page() {
     for (let i = 1; i < array.length; i++) {
       let j = i;
       while (j > 0 && array[j] < array[j - 1]) {
+        await sleep(speed);
+
         setCurrentIdx(j);
         setCurrentIdx1(j - 1);
-
-        await sleep(speed);
         const temp = array[j - 1];
         array[j - 1] = array[j];
         array[j] = temp;
         j -= 1;
       }
+    }
+    setArray([...array]);
+    setSortActive(false);
+  }
+
+  async function selectionSort(array) {
+    setSortActive(true);
+    let startIdx = 0;
+    while (startIdx < array.length - 1) {
+      let smallestIdx = startIdx;
+
+      for (let i = startIdx + 1; i < array.length; i++) {
+        setCurrentIdx(i);
+        await sleep(speed);
+
+        if (array[smallestIdx] > array[i]) {
+          setCurrentIdx1(smallestIdx);
+          smallestIdx = i;
+        }
+      }
+      const temp = array[smallestIdx];
+      array[smallestIdx] = array[startIdx];
+      array[startIdx] = temp;
+      startIdx++;
     }
     setArray([...array]);
     setSortActive(false);
@@ -140,6 +164,15 @@ export default function Page() {
               )}
             >
               Insertion Sort
+            </li>
+            <li
+              onClick={() => selectionSort(array)}
+              className={clsx(
+                sortActive && 'bg-opacity-25 cursor-not-allowed',
+                'bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer'
+              )}
+            >
+              Selection Sort
             </li>
           </ul>
         </div>
