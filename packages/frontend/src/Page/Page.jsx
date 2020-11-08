@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { sleep } from '../helper/sleep';
 
-const ANIMATION_SPEED_MS = 1000;
-
-function Array({ array }) {
+function Array({ array, currentIdx, CurrentIdx1 }) {
   return (
     <div className={clsx('w-full flex  mt-5 h-full space-x-1')}>
       {array.map((arr, i) => (
         <div
           style={{ height: `${arr}%` }}
           key={i}
+          data-tip='hello world'
           className={clsx(
-            'bg-red-200 text-xs flex justify-center w-12',
+            currentIdx === i ? 'bg-green-200' : 'bg-red-200',
+            'text-xs flex justify-center w-12',
+            CurrentIdx1 === i ? 'bg-blue-200' : 'bg-red-200',
             array.length > 45 && 'w-2'
           )}
         >
@@ -23,7 +25,15 @@ function Array({ array }) {
 }
 
 export default function Page() {
-  const [array, setArray] = useState([1, 2, 8, 4, 3, 2, 7, 5, 3, 21]);
+  const [array, setArray] = useState([]);
+  const [speed, setSpeed] = useState(50);
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [CurrentIdx1, setCurrentIdx1] = useState(0);
+  const [sortActive, setSortActive] = useState(false);
+
+  useEffect(() => {
+    randomArray(50);
+  }, []);
 
   function randomArray(length) {
     const ARRAY_LENGTH = length;
@@ -39,29 +49,39 @@ export default function Page() {
     randomArray(value);
   }
 
-  function bubbleSort(array) {
+  async function bubbleSort() {
+    setSortActive(true);
     let isSorted = false;
     let counter = 0;
 
     while (!isSorted) {
       isSorted = true;
       for (let i = 0; i < array.length - 1 - counter; i++) {
+        setCurrentIdx(i);
+        await sleep(speed);
         if (array[i] > array[i + 1]) {
           let temp = array[i + 1];
           array[i + 1] = array[i];
           array[i] = temp;
+          setCurrentIdx1(i + 1);
           isSorted = false;
         }
       }
       counter++;
     }
     setArray([...array]);
+    setSortActive(false);
   }
 
-  function insertionSort(array) {
+  async function insertionSort(array) {
+    setSortActive(true);
     for (let i = 1; i < array.length; i++) {
       let j = i;
       while (j > 0 && array[j] < array[j - 1]) {
+        setCurrentIdx(j);
+        setCurrentIdx1(j - 1);
+
+        await sleep(speed);
         const temp = array[j - 1];
         array[j - 1] = array[j];
         array[j] = temp;
@@ -69,6 +89,7 @@ export default function Page() {
       }
     }
     setArray([...array]);
+    setSortActive(false);
   }
 
   return (
@@ -81,7 +102,19 @@ export default function Page() {
               <input
                 onChange={(e) => handleSlider(e.target.value)}
                 type='range'
-                min='2'
+                min='20'
+                max='150'
+                defaultValue='50'
+              />
+            </label>
+          </div>
+          <div>
+            <label className='flex flex-col items-center justify-center'>
+              Speed of Sort
+              <input
+                onChange={(e) => setSpeed(e.target.value)}
+                type='range'
+                min='0'
                 max='100'
                 defaultValue='50'
               />
@@ -92,20 +125,26 @@ export default function Page() {
           <ul className='flex space-x-12'>
             <li
               onClick={() => bubbleSort(array)}
-              className='bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer'
+              className={clsx(
+                sortActive && 'bg-opacity-25 cursor-not-allowed',
+                'bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer'
+              )}
             >
               Bubble Sort
             </li>
             <li
               onClick={() => insertionSort(array)}
-              className='bg-orange-500 rounded-lg px-6 py-2 cursor-pointer'
+              className={clsx(
+                sortActive && 'bg-opacity-25 cursor-not-allowed',
+                'bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer'
+              )}
             >
               Insertion Sort
             </li>
           </ul>
         </div>
       </div>
-      <Array array={array} />
+      <Array array={array} currentIdx={currentIdx} CurrentIdx1={CurrentIdx1} />
     </div>
   );
 }
