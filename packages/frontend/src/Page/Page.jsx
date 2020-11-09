@@ -147,33 +147,39 @@ export default function Page() {
         </div>
         <div>
           <ul className='flex space-x-12'>
-            <li
+            <button
+              disabled={sortActive}
               onClick={() => bubbleSort(array)}
               className={clsx(
-                sortActive && 'bg-opacity-25 cursor-not-allowed',
-                'bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer'
+                'bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer focus:outline-none',
+                sortActive &&
+                  'text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed'
               )}
             >
               Bubble Sort
-            </li>
-            <li
+            </button>
+            <button
+              disabled={sortActive}
               onClick={() => insertionSort(array)}
               className={clsx(
-                sortActive && 'bg-opacity-25 cursor-not-allowed',
-                'bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer'
+                'bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer focus:outline-none',
+                sortActive &&
+                  'text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed'
               )}
             >
               Insertion Sort
-            </li>
-            <li
+            </button>
+            <button
+              disabled={sortActive}
               onClick={() => selectionSort(array)}
               className={clsx(
-                sortActive && 'bg-opacity-25 cursor-not-allowed',
-                'bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer'
+                'bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer focus:outline-none',
+                sortActive &&
+                  'text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed'
               )}
             >
               Selection Sort
-            </li>
+            </button>
           </ul>
         </div>
       </div>
