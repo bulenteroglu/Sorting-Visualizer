@@ -13,9 +13,9 @@ function Array({ array, currentIdx, CurrentIdx1, pointerLeft, pointerRight }) {
             currentIdx === i ? 'bg-green-200' : 'bg-red-200',
             pointerLeft === i && 'bg-indigo-500',
             pointerRight === i && 'bg-indigo-500',
-            'text-xs flex justify-center',
+            'text-xs flex justify-center w-16',
             CurrentIdx1 === i ? 'bg-blue-200' : 'bg-red-200',
-            array.length > 20 ? 'w-6' : 'w-2'
+            array.length > 45 && 'w-4'
           )}
         >
           {array.length < 51 && arr}
@@ -35,7 +35,7 @@ export default function Page() {
   const [pointerLeft, setPointerLeft] = useState(null);
   const [pointerRight, setPointerRight] = useState(null);
 
-  const [target, setTarget] = useState(25);
+  const [target, setTarget] = useState(10);
 
   useEffect(() => {
     randomArray(50);
@@ -43,12 +43,13 @@ export default function Page() {
 
   function randomArray(length) {
     const ARRAY_LENGTH = length;
-    const tempArr = [];
-    for (let i = 0; i < ARRAY_LENGTH; i++) {
-      tempArr.push(Math.floor(Math.random() * 50) + 10);
+
+    let array = new Set();
+    while (array.size !== ARRAY_LENGTH) {
+      array.add(Math.floor(Math.random() * 100) + 1);
     }
 
-    setArray(tempArr);
+    setArray([...array]);
   }
 
   function handleSlider(value) {
@@ -122,7 +123,7 @@ export default function Page() {
     setSortActive(false);
   }
 
-  async function binarySearch(array, target) {
+  async function binarySearch() {
     sortArrayHelper(array);
 
     let left = 0;
@@ -131,35 +132,43 @@ export default function Page() {
     setPointerRight(array.length - 1);
     setPointerLeft(left);
 
-    console.log(array.length);
-
+    console.log(array);
     while (left <= right) {
-      await sleep(speed);
+      await sleep(3000);
       const middle = Math.floor((left + right) / 2);
       const potentialMatch = array[middle];
 
       if (potentialMatch === target) {
         setCurrentIdx(middle);
-        console.log('TARGET' + middle);
+        setPointerRight(null);
+        setPointerLeft(null);
         return middle;
       } else if (target < potentialMatch) {
         right = middle - 1;
         setPointerRight(right);
-        console.log('POINTER RIGHT: ' + right);
+        console.log('RIGHT INDEX: ' + right);
       } else {
         left = middle + 1;
         setPointerLeft(left);
-        console.log('POINTER LEFT: ' + left);
+        console.log('LEFT INDEX: ' + left);
       }
     }
-    // currentIdx(null);
-    // setPointerRight(null);
-    // setPointerLeft(null);
+
+    setTimeout(() => {
+      setCurrentIdx(null);
+      setPointerRight(null);
+      setPointerLeft(null);
+    }, 1000);
+
     return -1;
   }
 
   function sortArrayHelper(array) {
     array.sort((a, b) => a - b);
+  }
+
+  function handleChange(value) {
+    setTarget(value);
   }
 
   return (
@@ -196,7 +205,7 @@ export default function Page() {
             <div className='space-y-2 flex flex-col items-center justify-center'>
               <button
                 disabled={sortActive}
-                onClick={() => binarySearch(array, target)}
+                onClick={() => binarySearch()}
                 className={clsx(
                   'bg-orange-500 rounded-lg px-6 py-2 cursor-pointer focus:outline-none',
                   sortActive &&
@@ -210,7 +219,7 @@ export default function Page() {
                 type='text'
                 placeholder='enter something'
                 value={target}
-                onChange={(e) => setTarget(e.target.value)}
+                onChange={(e) => handleChange(e.target.value)}
               />
             </div>
             <button
