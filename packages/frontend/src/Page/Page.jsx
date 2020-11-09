@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { sleep } from '../helper/sleep';
 
-function Array({ array, currentIdx, CurrentIdx1 }) {
+function Array({ array, currentIdx, CurrentIdx1, pointerLeft, pointerRight }) {
   return (
     <div className={clsx('w-full flex  mt-5 h-full space-x-1')}>
       {array.map((arr, i) => (
@@ -12,12 +12,14 @@ function Array({ array, currentIdx, CurrentIdx1 }) {
           data-tip='hello world'
           className={clsx(
             currentIdx === i ? 'bg-green-200' : 'bg-red-200',
+            pointerLeft === i && 'bg-indigo-500',
+            pointerRight === i && 'bg-indigo-500',
             'text-xs flex justify-center w-12',
             CurrentIdx1 === i ? 'bg-blue-200' : 'bg-red-200',
             array.length > 45 && 'w-2'
           )}
         >
-          {array.length < 45 && arr}
+          {array.length < 51 && arr}
         </div>
       ))}
     </div>
@@ -27,9 +29,14 @@ function Array({ array, currentIdx, CurrentIdx1 }) {
 export default function Page() {
   const [array, setArray] = useState([]);
   const [speed, setSpeed] = useState(50);
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [CurrentIdx1, setCurrentIdx1] = useState(0);
+  const [currentIdx, setCurrentIdx] = useState(null);
+  const [CurrentIdx1, setCurrentIdx1] = useState(null);
   const [sortActive, setSortActive] = useState(false);
+
+  const [pointerLeft, setPointerLeft] = useState(null);
+  const [pointerRight, setPointerRight] = useState(null);
+
+  const [target, setTarget] = useState(25);
 
   useEffect(() => {
     randomArray(50);
@@ -116,6 +123,39 @@ export default function Page() {
     setSortActive(false);
   }
 
+  async function binarySearch(array, target) {
+    sortArrayHelper(array);
+
+    let left = 0;
+    let right = array.length - 1;
+
+    setPointerRight(right);
+    setPointerLeft(left);
+
+    while (left <= right) {
+      await sleep(speed);
+      const middle = Math.floor((left + right) / 2);
+      const potentialMatch = array[middle];
+
+      if (potentialMatch === target) {
+        setCurrentIdx(middle);
+        return middle;
+      } else if (target < potentialMatch) {
+        right = middle - 1;
+        setPointerRight(right);
+      } else {
+        left = middle + 1;
+        setPointerLeft(left);
+      }
+    }
+    alert('askjasjhk');
+    return -1;
+  }
+
+  function sortArrayHelper(array) {
+    array.sort((a, b) => a - b);
+  }
+
   return (
     <div>
       <div className='mt-5 flex items-center justify-between  rounded'>
@@ -146,7 +186,18 @@ export default function Page() {
           </div>
         </div>
         <div>
-          <ul className='flex space-x-12'>
+          <ul className='flex space-x-6'>
+            <button
+              disabled={sortActive}
+              onClick={() => binarySearch(array, target)}
+              className={clsx(
+                'bg-orange-500 rounded-lg px-6 py-2 cursor-pointer focus:outline-none',
+                sortActive &&
+                  'text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed'
+              )}
+            >
+              Binary Search
+            </button>
             <button
               disabled={sortActive}
               onClick={() => bubbleSort(array)}
@@ -183,7 +234,13 @@ export default function Page() {
           </ul>
         </div>
       </div>
-      <Array array={array} currentIdx={currentIdx} CurrentIdx1={CurrentIdx1} />
+      <Array
+        array={array}
+        currentIdx={currentIdx}
+        CurrentIdx1={CurrentIdx1}
+        pointerLeft={pointerLeft}
+        pointerRight={pointerRight}
+      />
     </div>
   );
 }
