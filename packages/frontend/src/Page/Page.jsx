@@ -4,19 +4,18 @@ import { sleep } from '../helper/sleep';
 
 function Array({ array, currentIdx, CurrentIdx1, pointerLeft, pointerRight }) {
   return (
-    <div className={clsx('w-full flex  mt-5 h-full space-x-1')}>
+    <div className={clsx('w-full flex mt-5 h-full space-x-1')}>
       {array.map((arr, i) => (
         <div
           style={{ height: `${arr}%` }}
           key={i}
-          data-tip='hello world'
           className={clsx(
             currentIdx === i ? 'bg-green-200' : 'bg-red-200',
             pointerLeft === i && 'bg-indigo-500',
             pointerRight === i && 'bg-indigo-500',
-            'text-xs flex justify-center w-12',
+            'text-xs flex justify-center',
             CurrentIdx1 === i ? 'bg-blue-200' : 'bg-red-200',
-            array.length > 45 && 'w-2'
+            array.length > 20 ? 'w-6' : 'w-2'
           )}
         >
           {array.length < 51 && arr}
@@ -129,8 +128,10 @@ export default function Page() {
     let left = 0;
     let right = array.length - 1;
 
-    setPointerRight(right);
+    setPointerRight(array.length - 1);
     setPointerLeft(left);
+
+    console.log(array.length);
 
     while (left <= right) {
       await sleep(speed);
@@ -139,16 +140,21 @@ export default function Page() {
 
       if (potentialMatch === target) {
         setCurrentIdx(middle);
+        console.log('TARGET' + middle);
         return middle;
       } else if (target < potentialMatch) {
         right = middle - 1;
         setPointerRight(right);
+        console.log('POINTER RIGHT: ' + right);
       } else {
         left = middle + 1;
         setPointerLeft(left);
+        console.log('POINTER LEFT: ' + left);
       }
     }
-    alert('askjasjhk');
+    // currentIdx(null);
+    // setPointerRight(null);
+    // setPointerLeft(null);
     return -1;
   }
 
@@ -187,17 +193,26 @@ export default function Page() {
         </div>
         <div>
           <ul className='flex space-x-6'>
-            <button
-              disabled={sortActive}
-              onClick={() => binarySearch(array, target)}
-              className={clsx(
-                'bg-orange-500 rounded-lg px-6 py-2 cursor-pointer focus:outline-none',
-                sortActive &&
-                  'text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed'
-              )}
-            >
-              Binary Search
-            </button>
+            <div className='space-y-2 flex flex-col items-center justify-center'>
+              <button
+                disabled={sortActive}
+                onClick={() => binarySearch(array, target)}
+                className={clsx(
+                  'bg-orange-500 rounded-lg px-6 py-2 cursor-pointer focus:outline-none',
+                  sortActive &&
+                    'text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed'
+                )}
+              >
+                Binary Search
+              </button>
+              <input
+                className='bg-gray-200 rounded px-3 py-1 focus:outline-none border border-black'
+                type='text'
+                placeholder='enter something'
+                value={target}
+                onChange={(e) => setTarget(e.target.value)}
+              />
+            </div>
             <button
               disabled={sortActive}
               onClick={() => bubbleSort(array)}
