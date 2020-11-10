@@ -10,11 +10,11 @@ function Array({ array, currentIdx, CurrentIdx1, pointerLeft, pointerRight }) {
           style={{ height: `${arr}%` }}
           key={i}
           className={clsx(
-            currentIdx === i ? 'bg-green-200' : 'bg-red-200',
+            currentIdx === i ? 'bg-indigo-600' : 'bg-gray-800',
             pointerLeft === i && 'bg-indigo-500',
             pointerRight === i && 'bg-indigo-500',
-            'text-xs flex justify-center w-16',
-            CurrentIdx1 === i ? 'bg-blue-200' : 'bg-red-200',
+            'text-xs text-white flex justify-center w-16',
+            CurrentIdx1 === i ? 'bg-red-600' : 'bg-gray-800',
             array.length > 45 && 'w-4'
           )}
         >
@@ -42,14 +42,21 @@ export default function Page() {
   }, []);
 
   function randomArray(length) {
-    const ARRAY_LENGTH = length;
+    // const ARRAY_LENGTH = length;
 
-    let array = new Set();
-    while (array.size !== ARRAY_LENGTH) {
-      array.add(Math.floor(Math.random() * 100) + 1);
+    // let array = new Set();
+    // while (array.size !== ARRAY_LENGTH) {
+    //   array.add(Math.floor(Math.random() * 100) + 1);
+    // }
+
+    // setArray([...array]);
+    const ARRAY_LENGTH = length;
+    const tempArr = [];
+    for (let i = 0; i < ARRAY_LENGTH; i++) {
+      tempArr.push(Math.floor(Math.random() * 50) + 10);
     }
 
-    setArray([...array]);
+    setArray(tempArr);
   }
 
   function handleSlider(value) {
@@ -76,6 +83,9 @@ export default function Page() {
       }
       counter++;
     }
+    setCurrentIdx(null);
+    setCurrentIdx1(null);
+
     setArray([...array]);
     setSortActive(false);
   }
@@ -95,6 +105,9 @@ export default function Page() {
         j -= 1;
       }
     }
+    setCurrentIdx(null);
+    setCurrentIdx1(null);
+
     setArray([...array]);
     setSortActive(false);
   }
@@ -119,6 +132,8 @@ export default function Page() {
       array[startIdx] = temp;
       startIdx++;
     }
+    setCurrentIdx(null);
+    setCurrentIdx1(null);
     setArray([...array]);
     setSortActive(false);
   }
@@ -171,14 +186,17 @@ export default function Page() {
     setTarget(value);
   }
 
+  console.log(speed);
+
   return (
     <div>
       <div className='mt-5 flex items-center justify-between  rounded'>
-        <div className='flex items-center space-x-5'>
+        <div className='flex items-center space-x-5 text-white'>
           <div>
             <label className='flex flex-col items-center justify-center'>
               Length of Array
               <input
+                className='mt-3 rounded-lg overflow-hidden appearance-none bg-gray-800 h-3 focus:outline-none py-2 '
                 onChange={(e) => handleSlider(e.target.value)}
                 type='range'
                 min='20'
@@ -191,18 +209,19 @@ export default function Page() {
             <label className='flex flex-col items-center justify-center'>
               Speed of Sort
               <input
+                className='mt-3 rounded-lg overflow-hidden appearance-none bg-gray-800 h-3 focus:outline-none py-2 transform rotate-180'
                 onChange={(e) => setSpeed(e.target.value)}
                 type='range'
-                min='0'
-                max='100'
-                defaultValue='50'
+                min='1'
+                max='500'
+                defaultValue='250'
               />
             </label>
           </div>
         </div>
         <div>
           <ul className='flex space-x-6'>
-            <div className='space-y-2 flex flex-col items-center justify-center'>
+            {/* <div className='space-y-2 flex flex-col items-center justify-center'>
               <button
                 disabled={sortActive}
                 onClick={() => binarySearch()}
@@ -221,7 +240,7 @@ export default function Page() {
                 value={target}
                 onChange={(e) => handleChange(e.target.value)}
               />
-            </div>
+            </div> */}
             <button
               disabled={sortActive}
               onClick={() => bubbleSort(array)}
