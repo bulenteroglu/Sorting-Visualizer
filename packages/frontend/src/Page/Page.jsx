@@ -14,10 +14,10 @@ function Array({ array, currentIdx, CurrentIdx1, pointerLeft, pointerRight }) {
           style={{ height: `${arr}%` }}
           key={i}
           className={clsx(
-            'text-xs text-white flex justify-center w-16 hover:bg-gray-700 transition duration-75 transform hover:scale-110',
-            currentIdx === i ? 'bg-indigo-600' : 'bg-gray-800',
-            pointerLeft === i && 'bg-indigo-500',
-            pointerRight === i && 'bg-indigo-500',
+            'rounded-b-full text-xs text-white flex justify-center w-16 bg-gradient-to-b hover:from-blue-800 hover:to-blue-900 transition duration-75 transform hover:scale-110',
+            currentIdx === i ? 'bg-green-400' : 'bg-gray-800',
+            pointerLeft === i && 'bg-purple-500',
+            pointerRight === i && 'bg-blue-500',
             CurrentIdx1 === i ? 'bg-red-600' : 'bg-gray-800',
             array.length > 45 && 'w-4'
           )}
