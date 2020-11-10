@@ -3,17 +3,21 @@ import clsx from 'clsx';
 import { sleep } from '../helper/sleep';
 
 function Array({ array, currentIdx, CurrentIdx1, pointerLeft, pointerRight }) {
+  const [mouseEnter, setMouseEnter] = useState(false);
+
   return (
     <div className={clsx('w-full flex mt-5 h-full space-x-1')}>
       {array.map((arr, i) => (
         <div
+          onMouseEnter={() => setMouseEnter(true)}
+          onMouseLeave={() => setMouseEnter(false)}
           style={{ height: `${arr}%` }}
           key={i}
           className={clsx(
+            'text-xs text-white flex justify-center w-16 hover:bg-gray-700 transition duration-75 transform hover:scale-110',
             currentIdx === i ? 'bg-indigo-600' : 'bg-gray-800',
             pointerLeft === i && 'bg-indigo-500',
             pointerRight === i && 'bg-indigo-500',
-            'text-xs text-white flex justify-center w-16',
             CurrentIdx1 === i ? 'bg-red-600' : 'bg-gray-800',
             array.length > 45 && 'w-4'
           )}
@@ -186,10 +190,8 @@ export default function Page() {
     setTarget(value);
   }
 
-  console.log(speed);
-
   return (
-    <div>
+    <div className='h-screen'>
       <div className='mt-5 flex items-center justify-between  rounded'>
         <div className='flex items-center space-x-5 text-white'>
           <div>
@@ -207,13 +209,14 @@ export default function Page() {
           </div>
           <div>
             <label className='flex flex-col items-center justify-center'>
-              Speed of Sort
+              Speed
               <input
                 className='mt-3 rounded-lg overflow-hidden appearance-none bg-gray-800 h-3 focus:outline-none py-2 transform rotate-180'
                 onChange={(e) => setSpeed(e.target.value)}
                 type='range'
-                min='1'
+                min='0'
                 max='500'
+                step='50'
                 defaultValue='250'
               />
             </label>
@@ -245,9 +248,8 @@ export default function Page() {
               disabled={sortActive}
               onClick={() => bubbleSort(array)}
               className={clsx(
-                'bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer focus:outline-none',
-                sortActive &&
-                  'text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed'
+                'bg-indigo-800 font-bold italic text-white rounded-lg px-6 py-2 cursor-pointer transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
+                sortActive && 'text-white opacity-50 cursor-not-allowed'
               )}
             >
               Bubble Sort
@@ -256,9 +258,8 @@ export default function Page() {
               disabled={sortActive}
               onClick={() => insertionSort(array)}
               className={clsx(
-                'bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer focus:outline-none',
-                sortActive &&
-                  'text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed'
+                'bg-indigo-800 font-bold italic text-white rounded-lg px-6 py-2 cursor-pointer transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
+                sortActive && 'text-white opacity-50 cursor-not-allowed'
               )}
             >
               Insertion Sort
@@ -267,9 +268,8 @@ export default function Page() {
               disabled={sortActive}
               onClick={() => selectionSort(array)}
               className={clsx(
-                'bg-indigo-500 rounded-lg px-6 py-2 cursor-pointer focus:outline-none',
-                sortActive &&
-                  'text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed'
+                'bg-indigo-800 font-bold italic text-white rounded-lg px-6 py-2 cursor-pointer transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
+                sortActive && 'opacity-50 cursor-not-allowed'
               )}
             >
               Selection Sort
