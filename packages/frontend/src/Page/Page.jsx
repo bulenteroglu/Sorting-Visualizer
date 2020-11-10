@@ -195,7 +195,7 @@ export default function Page() {
       <div className='mt-5 flex items-center justify-between  rounded'>
         <div className='flex items-center space-x-5 text-white'>
           <div>
-            <label className='flex flex-col items-center justify-center'>
+            <label className='flex flex-col items-center justify-center italic'>
               Length of Array
               <input
                 className='mt-3 rounded-lg overflow-hidden appearance-none bg-gray-800 h-3 focus:outline-none py-2 '
@@ -208,7 +208,7 @@ export default function Page() {
             </label>
           </div>
           <div>
-            <label className='flex flex-col items-center justify-center'>
+            <label className='flex flex-col items-center justify-center italic'>
               Speed
               <input
                 className='mt-3 rounded-lg overflow-hidden appearance-none bg-gray-800 h-3 focus:outline-none py-2 transform rotate-180'
