@@ -5,10 +5,12 @@ import Page from './Page/Page';
 
 export default function App() {
   return (
-    <div className='container mx-auto flex flex-col '>
-      <Navbar />
-      <Page />
-      <Footer />
+    <div className='bg-gray-900 antialiased font-sans'>
+      <div className='container mx-auto flex flex-col '>
+        <Navbar />
+        <Page />
+        <Footer />
+      </div>
     </div>
   );
 }

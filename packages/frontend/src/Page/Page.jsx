@@ -291,7 +291,7 @@ export default function Page() {
           </div>
         </div>
         <div>
-          <ul className='flex space-x-6'>
+          <div className='flex space-x-6'>
             {/* <div className='space-y-2 flex flex-col items-center justify-center'>
               <button
                 disabled={sortActive}
@@ -321,7 +321,7 @@ export default function Page() {
               )}
             >
               <span className='focus:outline-none'>Quick Sort</span>
-              <span className='text-xs text-blue-300'>(under maintenance)</span>
+              <span className='text-xs'>(under maintenance)</span>
             </div>
             <button
               disabled={sortActive}
@@ -353,7 +353,7 @@ export default function Page() {
             >
               Selection Sort
             </button>
-          </ul>
+          </div>
         </div>
       </div>
       <Array

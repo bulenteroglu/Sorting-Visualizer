@@ -5,7 +5,7 @@ export default function Navbar() {
     <div className='flex justify-between items-center py-5'>
       <div className='font-bold italic text-3xl text-white   flex items-center'>
         <span className='wavvy'>
-          <a href='https://bulenteroglu.co.uk' target='_blank'>
+          <a rel='noopener' href='https://bulenteroglu.co.uk' target='_blank'>
             Bulent Eroglu
           </a>
         </span>
