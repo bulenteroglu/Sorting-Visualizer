@@ -10,7 +10,6 @@ function Array({
   pointerRight,
   finished,
 }) {
-  console.log(finished);
   return (
     <div className={clsx('w-full flex mt-5 h-full space-x-1')}>
       {array.map((arr, i) => (
@@ -185,11 +184,9 @@ export default function Page() {
       } else if (target < potentialMatch) {
         right = middle - 1;
         setPointerRight(right);
-        console.log('RIGHT INDEX: ' + right);
       } else {
         left = middle + 1;
         setPointerLeft(left);
-        console.log('LEFT INDEX: ' + left);
       }
     }
 
@@ -273,7 +270,7 @@ export default function Page() {
                 onChange={(e) => handleSlider(e.target.value)}
                 type='range'
                 min='20'
-                max='150'
+                max='300'
                 defaultValue='50'
               />
             </label>
