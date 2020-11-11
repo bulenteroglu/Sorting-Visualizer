@@ -151,7 +151,6 @@ export default function Page() {
     setPointerRight(array.length - 1);
     setPointerLeft(left);
 
-    console.log(array);
     while (left <= right) {
       await sleep(3000);
       const middle = Math.floor((left + right) / 2);
@@ -180,6 +179,57 @@ export default function Page() {
     }, 1000);
 
     return -1;
+  }
+
+  function quickSort(array) {
+    setSortActive(true);
+    quickSortHelper(array, 0, array.length - 1);
+    setArray([...array]);
+    setSortActive(false);
+  }
+
+  async function quickSortHelper(array, startIdx, endIdx) {
+    if (startIdx >= endIdx) return;
+    const pivotIdx = startIdx;
+    let leftIdx = startIdx + 1;
+    let rightIdx = endIdx;
+
+    while (rightIdx >= leftIdx) {
+      if (
+        array[leftIdx] > array[pivotIdx] &&
+        array[rightIdx] < array[pivotIdx]
+      ) {
+        swap(leftIdx, rightIdx, array);
+      }
+      if (array[leftIdx] <= array[pivotIdx]) {
+        leftIdx++;
+      }
+      if (array[rightIdx] >= array[pivotIdx]) {
+        rightIdx--;
+      }
+    }
+    await sleep(200);
+
+    swap(pivotIdx, rightIdx, array);
+    const leftSubarrayIsSmaller =
+      rightIdx - 1 - startIdx < endIdx - (rightIdx + 1);
+    if (leftSubarrayIsSmaller) {
+      await sleep(200);
+      quickSortHelper(array, startIdx, rightIdx - 1);
+      quickSortHelper(array, rightIdx + 1, endIdx);
+    } else {
+      await sleep(200);
+      quickSortHelper(array, rightIdx + 1, endIdx);
+      quickSortHelper(array, startIdx, rightIdx - 1);
+    }
+  }
+
+  async function swap(i, j, array) {
+    setCurrentIdx1(i);
+    setCurrentIdx1(j);
+    const temp = array[j];
+    array[j] = array[i];
+    array[i] = temp;
   }
 
   function sortArrayHelper(array) {
@@ -246,9 +296,19 @@ export default function Page() {
             </div> */}
             <button
               disabled={sortActive}
+              onClick={() => quickSort(array)}
+              className={clsx(
+                'bg-indigo-800 font-bold italic text-white rounded-lg px-3 py-2 cursor-pointer transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
+                sortActive && 'text-white opacity-50 cursor-not-allowed'
+              )}
+            >
+              Quick Sort
+            </button>
+            <button
+              disabled={sortActive}
               onClick={() => bubbleSort(array)}
               className={clsx(
-                'bg-indigo-800 font-bold italic text-white rounded-lg px-6 py-2 cursor-pointer transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
+                'bg-indigo-800 font-bold italic text-white rounded-lg px-3 py-2 cursor-pointer transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
                 sortActive && 'text-white opacity-50 cursor-not-allowed'
               )}
             >
@@ -258,7 +318,7 @@ export default function Page() {
               disabled={sortActive}
               onClick={() => insertionSort(array)}
               className={clsx(
-                'bg-indigo-800 font-bold italic text-white rounded-lg px-6 py-2 cursor-pointer transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
+                'bg-indigo-800 font-bold italic text-white rounded-lg px-3 py-2 cursor-pointer transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
                 sortActive && 'text-white opacity-50 cursor-not-allowed'
               )}
             >
@@ -268,7 +328,7 @@ export default function Page() {
               disabled={sortActive}
               onClick={() => selectionSort(array)}
               className={clsx(
-                'bg-indigo-800 font-bold italic text-white rounded-lg px-6 py-2 cursor-pointer transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
+                'bg-indigo-800 font-bold italic text-white rounded-lg px-3 py-2 cursor-pointer transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
                 sortActive && 'opacity-50 cursor-not-allowed'
               )}
             >
