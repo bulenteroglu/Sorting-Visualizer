@@ -2,24 +2,29 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { sleep } from '../helper/sleep';
 
-function Array({ array, currentIdx, CurrentIdx1, pointerLeft, pointerRight }) {
-  const [mouseEnter, setMouseEnter] = useState(false);
-
+function Array({
+  array,
+  currentIdx,
+  CurrentIdx1,
+  pointerLeft,
+  pointerRight,
+  finished,
+}) {
+  console.log(finished);
   return (
     <div className={clsx('w-full flex mt-5 h-full space-x-1')}>
       {array.map((arr, i) => (
         <div
-          onMouseEnter={() => setMouseEnter(true)}
-          onMouseLeave={() => setMouseEnter(false)}
           style={{ height: `${arr}%` }}
           key={i}
           className={clsx(
-            'rounded-b-full text-xs text-white flex justify-center w-16 bg-gradient-to-b hover:from-blue-800 hover:to-blue-900 transition duration-75 transform hover:scale-110',
+            'rounded-b-full text-xs text-white flex justify-center w-16 bg-gradient-to-b hover:from-blue-800 hover:to-blue-900 transition duration-75 transform hover:scale-105',
             currentIdx === i ? 'bg-green-400' : 'bg-gray-800',
             pointerLeft === i && 'bg-purple-500',
             pointerRight === i && 'bg-blue-500',
             CurrentIdx1 === i ? 'bg-red-600' : 'bg-gray-800',
-            array.length > 45 && 'w-4'
+            array.length > 45 && 'w-4',
+            finished && 'bg-green-700'
           )}
         >
           {array.length < 51 && arr}
@@ -38,6 +43,8 @@ export default function Page() {
 
   const [pointerLeft, setPointerLeft] = useState(null);
   const [pointerRight, setPointerRight] = useState(null);
+
+  const [finished, setFinished] = useState(false);
 
   const [target, setTarget] = useState(10);
 
@@ -92,6 +99,10 @@ export default function Page() {
 
     setArray([...array]);
     setSortActive(false);
+    setFinished(true);
+    setTimeout(() => {
+      setFinished(false);
+    }, 1000);
   }
 
   async function insertionSort(array) {
@@ -114,6 +125,11 @@ export default function Page() {
 
     setArray([...array]);
     setSortActive(false);
+
+    setFinished(true);
+    setTimeout(() => {
+      setFinished(false);
+    }, 1000);
   }
 
   async function selectionSort(array) {
@@ -140,6 +156,11 @@ export default function Page() {
     setCurrentIdx1(null);
     setArray([...array]);
     setSortActive(false);
+
+    setFinished(true);
+    setTimeout(() => {
+      setFinished(false);
+    }, 1000);
   }
 
   async function binarySearch() {
@@ -294,16 +315,19 @@ export default function Page() {
                 onChange={(e) => handleChange(e.target.value)}
               />
             </div> */}
-            <button
-              disabled={sortActive}
-              onClick={() => quickSort(array)}
+            <div
+              disabled={true}
+              onClick={() => {}}
               className={clsx(
-                'bg-indigo-800 font-bold italic text-white rounded-lg px-3 py-2 cursor-pointer transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
+                'flex flex-col items-center justify-center bg-indigo-800 font-bold italic text-white rounded-lg px-3 py-2 cursor-not-allowed transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
                 sortActive && 'text-white opacity-50 cursor-not-allowed'
               )}
             >
-              Quick Sort
-            </button>
+              <span className='focus:outline-none'>Quick Sort</span>
+              <span className='text-xs text-indigo-300'>
+                (under maintenance)
+              </span>
+            </div>
             <button
               disabled={sortActive}
               onClick={() => bubbleSort(array)}
@@ -343,6 +367,7 @@ export default function Page() {
         CurrentIdx1={CurrentIdx1}
         pointerLeft={pointerLeft}
         pointerRight={pointerRight}
+        finished={finished}
       />
     </div>
   );
