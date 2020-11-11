@@ -316,20 +316,18 @@ export default function Page() {
               disabled={true}
               onClick={() => {}}
               className={clsx(
-                'flex flex-col items-center justify-center bg-indigo-800 font-bold italic text-white rounded-lg px-3 py-2 cursor-not-allowed transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
+                'flex flex-col items-center justify-center bg-blue-700 font-bold italic text-white rounded-lg px-3 py-2 cursor-not-allowed transition duration-75 ease-in focus:outline-none ',
                 sortActive && 'text-white opacity-50 cursor-not-allowed'
               )}
             >
               <span className='focus:outline-none'>Quick Sort</span>
-              <span className='text-xs text-indigo-300'>
-                (under maintenance)
-              </span>
+              <span className='text-xs text-blue-300'>(under maintenance)</span>
             </div>
             <button
               disabled={sortActive}
               onClick={() => bubbleSort(array)}
               className={clsx(
-                'bg-indigo-800 font-bold italic text-white rounded-lg px-3 py-2 cursor-pointer transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
+                'flex flex-col items-center justify-center bg-blue-700 font-bold italic text-white rounded-lg px-3 py-2 cursor-not-allowed transition duration-75 ease-in focus:outline-none hover:bg-blue-400 focus:bg-blue-600',
                 sortActive && 'text-white opacity-50 cursor-not-allowed'
               )}
             >
@@ -339,7 +337,7 @@ export default function Page() {
               disabled={sortActive}
               onClick={() => insertionSort(array)}
               className={clsx(
-                'bg-indigo-800 font-bold italic text-white rounded-lg px-3 py-2 cursor-pointer transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
+                'flex flex-col items-center justify-center bg-blue-700 font-bold italic text-white rounded-lg px-3 py-2 cursor-not-allowed transition duration-75 ease-in focus:outline-none hover:bg-blue-400 focus:bg-blue-600',
                 sortActive && 'text-white opacity-50 cursor-not-allowed'
               )}
             >
@@ -349,7 +347,7 @@ export default function Page() {
               disabled={sortActive}
               onClick={() => selectionSort(array)}
               className={clsx(
-                'bg-indigo-800 font-bold italic text-white rounded-lg px-3 py-2 cursor-pointer transition duration-75 ease-in focus:outline-none hover:bg-indigo-700 focus:bg-indigo-600',
+                'flex flex-col items-center justify-center bg-blue-700 font-bold italic text-white rounded-lg px-3 py-2 cursor-not-allowed transition duration-75 ease-in focus:outline-none hover:bg-blue-400 focus:bg-blue-600',
                 sortActive && 'opacity-50 cursor-not-allowed'
               )}
             >

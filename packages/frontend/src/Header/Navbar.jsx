@@ -11,7 +11,7 @@ export default function Navbar() {
         </span>
         <span className='wiggle'>👋🏼</span>
       </div>
-      <div className='font-bold italic text-3xl capitalize text-gray-500'>
+      <div className='font-bold italic text-3xl capitalize  wavvy text-white'>
         sorting visualizer
       </div>
     </div>

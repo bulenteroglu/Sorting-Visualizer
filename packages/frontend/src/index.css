@@ -36,24 +36,6 @@
   }
 }
 
-.text-hover {
-  background-image: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 50%,
-    rgba(0, 203, 169, 0.5) 50%
-  );
-  background-position: -0% 0;
-  background-size: 200% auto;
-
-  text-decoration: none;
-  transition: background-position 0.3s ease-out;
-}
-
-.text-hover:hover {
-  cursor: pointer;
-  background-position: -99.99% 0;
-}
-
 .wavvy {
   text-decoration: underline;
   -webkit-text-decoration-color: #29bbd2;
